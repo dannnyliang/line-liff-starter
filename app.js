@@ -1,21 +1,13 @@
-const e = React.createElement;
+/* eslint-disable */
+const express = require('express');
+const http = require('http');
+const path = require('path');
 
-class LikeButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { liked: false };
-  }
+const app = express();
+app.use(express.static(path.join(__dirname, 'build')));
 
-  render() {
-    return (
-      <button onClick={() => this.setState({ liked: !this.state.liked })}>
-        {this.state.liked ? 'like' : 'dislike'}
-      </button>
-    );
-  }
-}
+const port = process.env.PORT || '8080';
+app.set('port', port);
 
-ReactDOM.render(
-  e(LikeButton),
-  document.querySelector('#react-root')
-)
+const server = http.createServer(app);
+server.listen(port, () => console.log(`Server is listening on http://127.0.0.1:${port}`));
